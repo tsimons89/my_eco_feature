@@ -8,7 +8,9 @@ src/Laplacian_gene.cpp
 src/Gene.cpp
 src/Gradient_gene.cpp''')
 
-ml_list = Split('''src/mlCreature.cpp src/Genome.cpp src/mlcommon.cpp src/random_generator.cpp''') 
+ml_list = Split('''src/mlCreature.cpp src/Genome.cpp src/mlcommon.cpp src/random_generator.cpp''')
+
+capture_list = Split('''src/capture_helper.cpp''') 
 
 
 
@@ -19,6 +21,8 @@ test_samme_list = ['src/test_samme.cpp'] + gene_list + ml_list
 find_weaklearners_list = ['src/find_weaklearners.cpp'] + gene_list + ml_list
 
 single_predict_list = ['src/single_predict.cpp'] + gene_list + ml_list
+
+image_capture_list = ['src/image_capture.cpp'] + capture_list
 
 
 
@@ -31,7 +35,7 @@ link_flags = "-fopenmp"
 
 # Setup compile environment
 env = Environment(CPPPATH=includes, CXXFLAGS=cxx_flags, LINKFLAGS=link_flags, 
-		LIBS=['opencv_core', 'opencv_highgui','opencv_imgproc', 'boost_filesystem', 'boost_program_options', 'boost_system', 'boost_regex', 'opencv_objdetect', 'opencv_ml', 'opencv_imgcodecs'],
+		LIBS=['opencv_core', 'opencv_highgui','opencv_imgproc', 'boost_filesystem', 'boost_program_options', 'boost_system', 'boost_regex', 'opencv_objdetect', 'opencv_ml', 'opencv_imgcodecs','opencv_videoio'],
 		LIBPATH=['/usr/local/lib'])
 if 'LD_LIBRARY_PATH' in os.environ:
 	env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
@@ -44,3 +48,5 @@ env.Program('bin/find_weak', find_weaklearners_list)
 env.Program('bin/test_samme', test_samme_list)
 
 env.Program('bin/single_predict', single_predict_list)
+
+env.Program('bin/image_capture', image_capture_list)

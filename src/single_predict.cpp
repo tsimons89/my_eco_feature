@@ -73,6 +73,7 @@ bool parse_options(int argc, char* argv[]) {
 		else {
 			test_image = imread(vm["test_image_file"].as<string>(),0);
 			test_image.convertTo(test_image, CV_32F);
+
 			if (test_image.empty()) {
 				cout << "Problem loading image."<< endl;
 				return false;
@@ -93,6 +94,7 @@ bool parse_options(int argc, char* argv[]) {
 
 
 int main(int argc, char* argv[]) {
+	setUseOptimized(true); 
 	// Parse over what folders to use for testing
 	bool worked = parse_options(argc, argv);
 	if (!worked) {

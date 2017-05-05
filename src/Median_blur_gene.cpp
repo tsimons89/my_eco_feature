@@ -24,6 +24,7 @@ unsigned int Median_blur_gene::mutate_gene(float mutation_rate) {
 Mat Median_blur_gene::process(Mat& input, bool& worked) {
 	worked = true;
 	Mat dest;
+	input.convertTo(input,CV_8U);
 	try {
 		medianBlur(input, dest, ksize);
 	}
