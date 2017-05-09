@@ -10,9 +10,7 @@ src/Gradient_gene.cpp''')
 
 ml_list = Split('''src/mlCreature.cpp src/Genome.cpp src/mlcommon.cpp src/random_generator.cpp''')
 
-capture_list = Split('''src/capture_helper.cpp''') 
-
-
+capture_list = Split('''src/Camera_capture.cpp src/Component_finder.cpp src/Image_writer.cpp''') 
 
 
 test_samme_list = ['src/test_samme.cpp'] + gene_list + ml_list
@@ -30,7 +28,7 @@ includes = ['include', '/usr/local/include/opencv', '/usr/local/include/opencv2'
 
 #cxx_flags = "-Wall -g -fno-inline -fopenmp"
 #cxx_flags = "-Wall -g -fno-inline"
-cxx_flags = "-Wall -O3 -fopenmp"
+cxx_flags = "-Wall -O3 -fopenmp -std=c++11"
 link_flags = "-fopenmp"
 
 # Setup compile environment
