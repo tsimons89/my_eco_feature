@@ -22,6 +22,8 @@ bool parse_options(int argc, char* argv[]) {
 			 "Width of image captured")
 			("image_height,h", po::value<int>(),
 			 "Height of image captured")
+			("resize_scale,s", po::value<float>()->default_value(1.0),
+			 "Scale used to resize image")
 			("file_pattern,f", po::value<string>()->default_value("*.jpg"),
 			 "Pattern for image filenames. Must include valid extention and \'*\', which will be replace with #.")
 			("file_dir,d", po::value<string>()->default_value("./"),
@@ -47,9 +49,19 @@ bool parse_options(int argc, char* argv[]) {
 			cout << "Must provide image height" << endl;
 			return false;
 		}
-		if(vm.count("file_pattern")){
-			image_writer.set_file_pattern(vm["file_pattern"].as<string>());
+		if(vm.count("resize_scale")){
+			image_writer.set_resize_scale(vm["resize_scale"].as<float>());
 		}
+		if(vm.count("file_pattern")){
+			string file_pattern = vm["file_pattern"].as<string>();
+			if(Image_writer::is_file_pattern_valid(file_pattern))
+				image_writer.set_file_pattern(file_pattern);
+			else{
+				cout << "File pattern not valid\n";
+				return false;
+			}
+		}
+		
 		if(vm.count("file_dir")){
 			image_writer.set_path(vm["file_dir"].as<string>());
 		}

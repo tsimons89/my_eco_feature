@@ -1,4 +1,5 @@
 #include "mlCreature.h"
+#include <ctime>
 
 int num_classes;
 extern vector<ImageWithClass>* hold_set;
@@ -151,9 +152,14 @@ vector<int> mlCreature::predict(vector<ImageWithClass>* inputs) {
 }
 
 int mlCreature::predict(Mat input_image) { //Added by Taylor
+	clock_t begin,end,total_begin,total_end;
+	total_begin = clock();
 	bool worked;
 	Mat output = Mat(1,1,CV_32F);
+	begin = clock();
 	Mat processed = this->process(input_image, worked);
+	end = clock();
+	int process_clocks = end - begin;
 	if(!worked) {
 		cout << "Could not process genome in mlCreature::predict\n";
 		exit(-1);
@@ -161,7 +167,13 @@ int mlCreature::predict(Mat input_image) { //Added by Taylor
 	Mat row_processed = Mat(processed).reshape(0, 1);
 	row_processed.convertTo(row_processed, CV_32F);
 	assert(row_processed.rows == 1);
+	begin = clock();
 	rforest->predict(row_processed, output);
+	end = clock();
+	int forest_clocks = end - begin;
+	total_end = clock();
+	int total_clocks = total_end - total_begin;
+	cout << "\tTotal: " << total_clocks << " process: " << process_clocks << " forest: " << forest_clocks << endl;
 	return int(output.at<float>(0, 0));
 }
 

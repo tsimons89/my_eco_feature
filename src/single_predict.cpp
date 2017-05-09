@@ -5,6 +5,7 @@
 #include "mlcommon.h" 
 #include "mlCreature.h"
 #include <dirent.h>
+#include <ctime>
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -110,6 +111,9 @@ int main(int argc, char* argv[]) {
 		cout << "Adaboost model file does not exist!\n";
 		exit(0);	
 	}
+	
+	clock_t begin_clock,end_clock;													//--------------------------------clock
+
 	ifstream fin(adaboost_model_file.c_str());
 	float beta;
 	unsigned int mlcreature_id;
@@ -141,22 +145,22 @@ int main(int argc, char* argv[]) {
 		num_weak++;
 	}
 
-
-
-
-
+	begin_clock = clock();								//--------------------------------clock
 	// Go through images and get classification accuracy
 	cout << "Getting classifications\n";
 
 	vector<int> result;
-	for(unsigned int c = 0; c < num_weak; c++) {
+	for(int c = 0; c < num_weak; c++) {
 		int output = mlcreatures->at(c)->predict(test_image);
 		result.push_back(output);
 	}
 
-	int num_instances = 0;
-	int ff, tt;
-	ff = tt = 0;
+	end_clock = clock();								//--------------------------------clock
+	cout << "Creatures predicted for " << end_clock - begin_clock << " clocks\n"; //--------------------calc
+
+
+
+	begin_clock = clock();								//--------------------------------clock
 	int* conf_mat = (int*)malloc(num_classes * num_classes * sizeof(int));
 	for(int i = 0; i < num_classes*num_classes; i++) {
 		conf_mat[i] = 0;
@@ -181,6 +185,8 @@ int main(int argc, char* argv[]) {
 		    index = i;
 		}
 	}
+	end_clock = clock();								//--------------------------------clock
+	cout << "Adaboost ran for " << end_clock - begin_clock << " clocks\n"; //--------------------calc
 
 	cout << "Predicted class: " << index << endl;
 
