@@ -1,18 +1,6 @@
 #include "Camera_capture.h"
 #include "Component_finder.h"
 
-void  Camera_capture::set_frame(){
-	check_camera();
-	camera >> frame;
-}
-
-void Camera_capture::check_camera(){
-	if(!camera.isOpened()){  
-		cout << "Failed to open camera\n";
-		exit(-1);
-	}
-}
-
 bool Camera_capture::tick(){
 	set_frame();
 	display_frame();
@@ -57,18 +45,5 @@ void Camera_capture::display_frame(){
 	putText(display_image,"Enter - save images",Point(10,60),FONT_HERSHEY_PLAIN,1.5,Scalar(0,0,255));
 	putText(display_image,"Esc - exit",Point(10,80),FONT_HERSHEY_PLAIN,1.5,Scalar(0,0,255));
 	imshow("Image capture", display_image);
-}
-
-void Camera_capture::set_camera_params(){
-	camera.set(CAP_PROP_FPS,60);
-	camera.set(CV_CAP_PROP_BRIGHTNESS,0.5);
-	camera.set(CV_CAP_PROP_SATURATION,0.5);
-	camera.set(CV_CAP_PROP_CONTRAST,0.5);
-	camera.set(CAP_PROP_AUTOFOCUS,0);
-	cout << "Contrast: " << camera.get(CV_CAP_PROP_CONTRAST) << endl;
-	cout << "Sat: " << camera.get(CV_CAP_PROP_SATURATION) << endl;
-	cout << "Hue: " << camera.get(CV_CAP_PROP_HUE) << endl;
-	cout << "Mode: " << camera.get(CAP_PROP_MODE) << endl;
-	cout << "FPS: " << camera.get(CAP_PROP_FPS) << endl;
 }
 

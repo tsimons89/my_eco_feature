@@ -10,7 +10,14 @@ src/Gradient_gene.cpp''')
 
 ml_list = Split('''src/mlCreature.cpp src/Genome.cpp src/mlcommon.cpp src/random_generator.cpp''')
 
-capture_list = Split('''src/Camera_capture.cpp src/Component_finder.cpp src/Image_writer.cpp''') 
+capture_list = Split('''src/Camera_capture.cpp src/Component_finder.cpp src/Image_writer.cpp src/Point_grey_capture.cpp src/Webcam_capture.cpp''') 
+
+opencv_libs = Split('''opencv_core opencv_highgui opencv_imgproc opencv_objdetect opencv_ml opencv_imgcodecs opencv_videoio''')
+
+boost_libs = Split('''boost_filesystem boost_program_options boost_system boost_regex''')
+
+flycapture_libs = Split('''flycapture flycapturegui''')
+
 
 
 test_samme_list = ['src/test_samme.cpp'] + gene_list + ml_list
@@ -24,7 +31,7 @@ image_capture_list = ['src/image_capture.cpp'] + capture_list
 
 
 
-includes = ['include', '/usr/local/include/opencv', '/usr/local/include/opencv2']
+includes = ['include', '/usr/local/include/opencv2', '/usr/local/include/opencv','/usr/local/include/flycapture/']
 
 #cxx_flags = "-Wall -g -fno-inline -fopenmp"
 #cxx_flags = "-Wall -g -fno-inline"
@@ -33,13 +40,14 @@ link_flags = "-fopenmp"
 
 # Setup compile environment
 env = Environment(CPPPATH=includes, CXXFLAGS=cxx_flags, LINKFLAGS=link_flags, 
-		LIBS=['opencv_core', 'opencv_highgui','opencv_imgproc', 'boost_filesystem', 'boost_program_options', 'boost_system', 'boost_regex', 'opencv_objdetect', 'opencv_ml', 'opencv_imgcodecs','opencv_videoio'],
-		LIBPATH=['/usr/local/lib'])
-if 'LD_LIBRARY_PATH' in os.environ:
-	env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
+		LIBS=boost_libs + opencv_libs + flycapture_libs,
+		LIBPATH=['/usr/local/lib'],
+		LD_LIBRARY_PATH=['/usr/local/lib'])
+#if 'LD_LIBRARY_PATH' in os.environ:
+#	env['ENV']['LD_LIBRARY_PATH'] = os.environ['LD_LIBRARY_PATH']
 
 
-
+#['opencv_core', 'opencv_highgui','opencv_imgproc', 'boost_filesystem', 'boost_program_options', 'boost_system', 'boost_regex', 'opencv_objdetect', 'opencv_ml', 'opencv_imgcodecs','opencv_videoio']
 
 env.Program('bin/find_weak', find_weaklearners_list)
 

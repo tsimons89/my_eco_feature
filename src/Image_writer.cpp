@@ -53,9 +53,7 @@ void Image_writer::write_images(vector<Mat> images){
 }
 
 void Image_writer::resize_image(Mat & image){
-	int new_width = image.size().width*resize_scale;
-	int new_height  = image.size().height*resize_scale;	
-	resize(image,image,Size(new_width,new_height));
+	resize(image,image,Size(width,height));
 }
 
 bool Image_writer::ask_keep_image(Mat image){
