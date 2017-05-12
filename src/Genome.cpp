@@ -141,6 +141,9 @@ Gene* Genome::create_gene(int gene_type) {
 		case GRADIENT_GENE:
 			g = new Gradient_gene();
 			break;
+		case BLUR_GENE:
+			g = new Blur_gene();
+			break;
 		default:
 			cout << "Selecting random gene that is out of index " << 
 				gene_type << "\n";

@@ -52,6 +52,8 @@ string make_gene_type_readable(int gene_type) {
 			return "Lapl";
 		case GRADIENT_GENE:
 			return "Gradient";
+		case BLUR_GENE:
+			return "Blur";
 		default:
 			cout << "Can't decode gene type!!, " << gene_type << "\n";
 			exit(-1);

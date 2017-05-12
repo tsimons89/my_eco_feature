@@ -20,6 +20,7 @@
 #include "Median_blur_gene.h"
 #include "Laplacian_gene.h"
 #include "Gradient_gene.h"
+#include "Blur_gene.h"
 
 using namespace std;
 using namespace cv;
