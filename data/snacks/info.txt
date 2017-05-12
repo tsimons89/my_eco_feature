@@ -1,0 +1,2 @@
+This data set was taken on conveyor belt with Flea3 Point Grey camera
+Image with was captured at 450x450 and then saved at 60x60

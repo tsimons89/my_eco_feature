@@ -16,7 +16,7 @@ Mat example_image;
 string tag;
 extern bool use_subregion;
 extern int num_classes;
-
+int max_weak_learners;
 // For AdaBoost
 // List of mlcreatures used as weak classifiers for adaboost
 vector<mlCreature*>* mlcreatures;
@@ -48,11 +48,13 @@ bool parse_options(int argc, char* argv[]) {
 			 "use population that all have the same genetic makeup")
 			("use_subregion,a", po::value<bool>()->default_value(false),
 			 "use subregions for mlcreatures")
+			("max_learners,l",po::value<int>()->default_value(1000),                ////Added by Taylor
+				"Max num of weak learners")
 			;
 		po::variables_map vm;        
 		po::store(po::parse_command_line(argc, argv, desc), vm);
         po::notify(vm);    
-
+        max_weak_learners = vm["max_learners"].as<int>();
 		if (vm.count("help")) {
 		    cout << desc << "\n";
 		    return false;
@@ -564,7 +566,7 @@ int main(int argc, char* argv[]) {
 	ofstream fout("resample.model", ios_base::out);
 	
 	float limit_error = 1./float(num_classes); 
-	for (unsigned int rnd = 0; rnd < 1000; rnd++) { //30
+	for (unsigned int rnd = 0; rnd < max_weak_learners; rnd++) { //1000 default (orignally 1000 and before 30)
 		cout << "rnd " << rnd << " starts" << endl;
 
 		vector<ImageWithClass>* newinput;

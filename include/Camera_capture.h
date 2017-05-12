@@ -7,13 +7,13 @@ using namespace std;
 
 class Camera_capture{
 
-private:
-	VideoCapture camera;
+protected:
 	int width, height;
 	Mat frame;
 	vector<Mat> images;
-	void set_frame();
-	void check_camera();
+
+	virtual void init_camera() = 0;
+	virtual void set_frame() = 0;
 	bool process_user_input();
 	void add_image_of_object();
 	Mat get_cropped_image(Point center);
@@ -21,8 +21,8 @@ private:
 	void set_camera_params();
 
 public:
-	Camera_capture() {camera.open(0);set_camera_params();}
-	Camera_capture(int width, int height) :width(width),height(height) {camera.open(0);set_camera_params();}
+	Camera_capture() {}
+	Camera_capture(int width, int height) :width(width),height(height) {}
 	void set_image_size(int _width, int _height) {width = _width;height = _height;}
 	bool tick();
 	vector<Mat> get_images(){return images;}

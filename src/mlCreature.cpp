@@ -91,7 +91,7 @@ void mlCreature::train(Mat& m, Mat& c) {
     rforest->setPriors(Mat());
     rforest->setCalculateVarImportance(false);
     rforest->setActiveVarCount(0);
-    rforest->setTermCriteria(TermCriteria(TermCriteria::MAX_ITER, 100, 0));// 5
+    rforest->setTermCriteria(TermCriteria(TermCriteria::MAX_ITER, 5, 0));// 5,100
 	rforest->train(m, ml::ROW_SAMPLE, c);
 }
 

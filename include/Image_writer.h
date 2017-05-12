@@ -10,7 +10,7 @@ class Image_writer{
 private:
 	string path = "./";
 	string file_pattern = "*.jpg";
-	float resize_scale = 1;
+	int width,height;
 
 	bool is_valid_file_num(int num);
 	string get_filename(int file_num);
@@ -28,7 +28,7 @@ public:
 
 	void set_file_pattern(string _file_pattern){file_pattern = _file_pattern;}
 	void set_path(string _path){path = _path;}
-	void set_resize_scale(float _resize_scale) {resize_scale = _resize_scale;}
+	void set_size(int _width, int _height) {width = _width;height = _height;}
 	void write_image(Mat image);
 	void write_images(vector<Mat> images);
 	static bool is_file_pattern_valid(string file_pattern);
