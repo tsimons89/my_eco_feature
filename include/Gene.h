@@ -35,10 +35,10 @@ using namespace cv;
 #define SOBEL_GENE 2
 #define GAUSSIAN_GENE 3//5
 #define GRADIENT_GENE 4//7
-#define MEDIAN_BLUR_GENE 5//16
+#define BLUR_GENE 5//16
 #define LAPLACIAN_GENE 6//20
 
-
+#define MEDIAN_BLUR_GENE 7//16
 #define NUM_POSSIBLE_GENES 6//27
 
 class Gene {

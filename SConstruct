@@ -1,12 +1,15 @@
 import os
 
-gene_list = Split('''src/Gabor_gene.cpp
+gene_list = Split('''
+src/Gabor_gene.cpp
 src/Sobel_gene.cpp
 src/Gaussian_gene.cpp
 src/Median_blur_gene.cpp
 src/Laplacian_gene.cpp
 src/Gene.cpp
-src/Gradient_gene.cpp''')
+src/Gradient_gene.cpp
+src/Blur_gene.cpp
+''')
 
 ml_list = Split('''src/mlCreature.cpp src/Genome.cpp src/mlcommon.cpp src/random_generator.cpp''')
 
