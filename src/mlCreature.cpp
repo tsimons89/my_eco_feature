@@ -383,3 +383,50 @@ void mlCreature::load_creatures_from_folder(string folder,
 		mlcreatures->push_back(c);
 	}
 }
+
+
+void mlCreature::set_filter_kernel(){
+	bool worked;
+	filter_kernel = get_initial_filter_mat(Size(101,101));
+	filter_kernel = process(filter_kernel,worked);
+	filter_kernel = crop_zeros(filter_kernel);
+	if(!worked){
+		cout << "Failed to make filter kernel\n";
+		exit(-1);
+	}
+	cout << "Filter kernel:\n" << filter_kernel << endl;
+}
+
+Rect mlCreature::get_bounding_rect(vector<Point> points){
+	int min_x = 10000,min_y = 1000,max_x = -1,max_y = -1;
+	for(Point point:points){
+		min_x = min(min_x,point.x);
+		max_x = max(max_x,point.x);
+		min_y = min(min_y,point.y);
+		max_y = max(max_y,point.y);
+	}
+	Rect test(Point(min_x,min_y),Point(max_x,max_y));
+	return Rect(Point(min_x,min_y),Point(++max_x,++max_y));
+}
+
+Rect mlCreature::get_non_zero_roi(Mat input){
+	Mat binarized;
+	threshold(abs(input),binarized,0,1,THRESH_BINARY);
+	binarized.convertTo(binarized,CV_8UC1);
+	vector<Point> non_zero_points;
+	findNonZero(binarized,non_zero_points);
+	return get_bounding_rect(non_zero_points);
+}
+
+Mat mlCreature::crop_zeros(Mat input){
+	return Mat(input,get_non_zero_roi(input));
+}	
+
+Mat mlCreature::get_initial_filter_mat(Size size){
+	assert(size.width % 2 && size.width % 2); //Make sure size is odd
+	Mat filter_mat = Mat::zeros(size,CV_32F);
+	filter_mat.at<float>(size.height/2,size.width/2,0) = 1.0;
+	return filter_mat;
+}
+
+

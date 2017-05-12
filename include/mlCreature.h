@@ -27,6 +27,14 @@ namespace fs = boost::filesystem;
 extern Mat example_image;
 
 class mlCreature {
+	private: //All private members added by taylor
+		Mat filter_kernel;
+
+		Rect get_bounding_rect(vector<Point> points);
+		Rect get_non_zero_roi(Mat input);
+		Mat crop_zeros(Mat input);
+		Mat get_initial_filter_mat(Size size);
+
 	public:
 		Genome* genome;
 		Ptr<RTrees> rforest;
@@ -66,6 +74,7 @@ class mlCreature {
 		bool valid();
 		static void load_creatures_from_folder(string folder,
 				vector<mlCreature*>* mlcreatures);
+		void set_filter_kernel(); //Added by taylor
 };
 
 
